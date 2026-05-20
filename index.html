@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MALBC Freelance — Creative & Virtual Support Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --paper: #f5f0e8;
+      --cream: #ede8dc;
+      --gold: #c8a96e;
+      --gold-light: #e8d5a3;
+      --rust: #b5593a;
+      --sage: #6b7c5c;
+      --muted: #7a7265;
+      --white: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.25rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(245,240,232,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,169,110,0.25);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(200,169,110,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 5vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      max-width: 380px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .hero-cta-row {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      background: var(--gold);
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--white);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    .hero-right {
+      background: var(--cream);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 8rem 4rem 5rem;
+      gap: 1.5rem;
+      position: relative;
+    }
+
+    .hero-right::after {
+      content: '"DESIGN THAT SPEAKS FOR YOUR BRAND"';
+      position: absolute;
+      bottom: 3rem;
+      right: 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.65rem;
+      font-style: italic;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+
+    /* Portfolio cards in hero */
+    .hero-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      width: 100%;
+      max-width: 420px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+
+    .hero-card {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.08);
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .hero-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+
+    .hero-card:first-child { background: var(--ink); }
+    .hero-card:nth-child(3) { background: var(--rust); }
+
+    .hero-card-label {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero-card:first-child .hero-card-label,
+    .hero-card:nth-child(3) .hero-card-label { color: rgba(255,255,255,0.5); }
+
+    /* SVG Logo Mockups inside hero cards */
+    .mock-logo { width: 70%; height: 70%; display: flex; align-items: center; justify-content: center; }
+
+    /* ── SECTION BASE ── */
+    section { position: relative; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .section-title em { font-style: italic; color: var(--rust); }
+
+    /* ── PORTFOLIO ── */
+    #portfolio {
+      padding: 7rem 5rem;
+      background: var(--paper);
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .portfolio-item {
+      position: relative;
+      overflow: hidden;
+      background: var(--cream);
+      border: 1px solid rgba(0,0,0,0.07);
+      cursor: pointer;
+      group: true;
+    }
+
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-item:hover .portfolio-img { transform: scale(1.04); }
+
+    .portfolio-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.5s ease;
+      overflow: hidden;
+    }
+
+    .portfolio-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(13,13,13,0.82);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      gap: 0.5rem;
+    }
+
+    .portfolio-overlay-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+
+    .portfolio-overlay-type {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .portfolio-meta {
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(0,0,0,0.07);
+    }
+
+    .portfolio-meta-name {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .portfolio-meta-tag {
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--cream);
+      padding: 0.25rem 0.6rem;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* ── FEATURED (wide item) ── */
+    .portfolio-item.featured { grid-column: span 2; }
+
+    .portfolio-item.featured .portfolio-img { aspect-ratio: 16/7; }
+
+    /* ── SERVICES ── */
+    #services {
+      padding: 7rem 5rem;
+      background: var(--ink);
+    }
+
+    #services .section-title { color: var(--white); }
+    #services .section-title em { color: var(--gold-light); }
+
+    .services-intro {
+      max-width: 600px;
+      margin: 0 auto 4rem;
+      text-align: center;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .service-card {
+      background: var(--ink);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s;
+    }
+
+    .service-card:hover { background: rgba(255,255,255,0.04); }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 1.25rem;
+      color: var(--gold);
+    }
+
+    .service-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.03em;
+    }
+
+    .service-desc {
+      font-size: 0.8rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 7rem 5rem;
+      background: var(--cream);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-visual-main {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-visual-accent {
+      position: absolute;
+      bottom: -2rem;
+      right: -2rem;
+      width: 60%;
+      aspect-ratio: 1;
+      border: 2px solid var(--gold);
+      z-index: -1;
+    }
+
+    .about-tag {
+      position: absolute;
+      top: 2rem;
+      right: -2rem;
+      background: var(--gold);
+      color: var(--ink);
+      padding: 0.6rem 1.2rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .about-content { }
+
+    .about-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      line-height: 1.7;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-body {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-row {
+      display: flex;
+      gap: 3rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--ink);
+      letter-spacing: 0.05em;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 7rem 5rem;
+      background: var(--paper);
+    }
+
+    .contact-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-text { }
+
+    .contact-lead {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .contact-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .contact-value {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    .contact-value a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold);
+      transition: color 0.2s;
+    }
+
+    .contact-value a:hover { color: var(--rust); }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .form-input, .form-textarea {
+      background: var(--cream);
+      border: 1px solid rgba(0,0,0,0.12);
+      padding: 0.85rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+    }
+
+    .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
+
+    .form-textarea { min-height: 120px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      padding: 3rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.12em;
+      color: var(--white);
+    }
+
+    .footer-logo span { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.08em;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── DIVIDER LINE ── */
+    .ornament {
+      text-align: center;
+      color: var(--gold);
+      margin: 1rem 0;
+      font-size: 1.2rem;
+      letter-spacing: 1rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 7rem 2.5rem 4rem; }
+      .hero-right { display: none; }
+      #portfolio { padding: 5rem 2rem; }
+      .portfolio-grid { grid-template-columns: 1fr 1fr; }
+      .portfolio-item.featured { grid-column: span 2; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      #services { padding: 5rem 2rem; }
+      #about { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      #contact { padding: 5rem 2rem; }
+      footer { padding: 2.5rem 2rem; flex-direction: column; text-align: center; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .portfolio-item.featured { grid-column: span 1; }
+      .services-grid { grid-template-columns: 1fr; }
+      .stat-row { gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#"><span>MALBC</span> FREELANCE</a>
+  <ul class="nav-links">
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Creative & Virtual Support Studio</p>
+    <h1 class="hero-title">
+      Where Small<br>Businesses<br><em>Come Alive</em>
+    </h1>
+    <p class="hero-sub">
+      A family of professionals dedicated to helping small businesses and individuals with quality virtual support they can trust — from striking visuals to seamless back-office help.
+    </p>
+    <div class="hero-cta-row">
+      <a class="btn-primary" href="https://www.upwork.com/agencies/2055494759577331380/" target="_blank">
+        View on Upwork ↗
+      </a>
+      <a class="btn-outline" href="#portfolio">See Our Work</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-cards">
+
+      <!-- Card 1: Dark logo mockup -->
+      <div class="hero-card">
+        <div class="mock-logo">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="38" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
+            <polygon points="50,22 72,62 28,62" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
+            <text x="50" y="82" text-anchor="middle" fill="#c8a96e" font-family="serif" font-size="8" letter-spacing="3">APEX</text>
+          </svg>
+        </div>
+        <span class="hero-card-label">Logo Design</span>
+      </div>
+
+      <!-- Card 2: Light banner mockup -->
+      <div class="hero-card" style="background:#e8dfd2;">
+        <div class="mock-logo">
+          <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="5" width="110" height="70" rx="2" fill="#0d0d0d"/>
+            <rect x="15" y="15" width="40" height="25" rx="1" fill="#c8a96e" opacity="0.9"/>
+            <text x="15" y="54" fill="white" font-family="serif" font-size="8" font-weight="bold">GRAND</text>
+            <text x="15" y="63" fill="#c8a96e" font-family="sans-serif" font-size="5" letter-spacing="2">OPENING</text>
+            <text x="62" y="54" fill="white" font-family="sans-serif" font-size="5">50% OFF</text>
+          </svg>
+        </div>
+        <span class="hero-card-label">Ad Banner</span>
+      </div>
+
+      <!-- Card 3: Rust branding -->
+      <div class="hero-card">
+        <div class="mock-logo">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="20" width="60" height="60" rx="0" fill="none" stroke="white" stroke-width="1.5"/>
+            <rect x="28" y="28" width="44" height="44" rx="0" fill="white" opacity="0.15"/>
+            <text x="50" y="53" text-anchor="middle" fill="white" font-family="Georgia,serif" font-size="18" font-weight="bold">B</text>
+            <text x="50" y="72" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="sans-serif" font-size="5" letter-spacing="3">BRAND</text>
+          </svg>
+        </div>
+        <span class="hero-card-label">Branding</span>
+      </div>
+
+      <!-- Card 4: Canva social post -->
+      <div class="hero-card" style="background: linear-gradient(135deg,#6b7c5c,#3d4a33);">
+        <div class="mock-logo">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="80" height="80" rx="8" fill="rgba(255,255,255,0.1)"/>
+            <circle cx="50" cy="40" r="18" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+            <text x="50" y="44" text-anchor="middle" fill="white" font-family="sans-serif" font-size="8" font-weight="bold">ECO</text>
+            <text x="50" y="72" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="sans-serif" font-size="5" letter-spacing="2">SOCIAL POST</text>
+          </svg>
+        </div>
+        <span class="hero-card-label">Canva Design</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Our Work</p>
+    <h2 class="section-title">Portfolio <em>Samples</em></h2>
+  </div>
+
+  <div class="portfolio-grid">
+
+    <!-- Featured wide: Banner -->
+    <div class="portfolio-item featured reveal">
+      <div class="portfolio-img">
+        <svg width="100%" height="100%" viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="800" height="350" fill="#0d0d0d"/>
+          <rect x="0" y="0" width="320" height="350" fill="#b5593a" opacity="0.9"/>
+          <!-- geometric accent -->
+          <polygon points="320,0 440,0 320,350" fill="#8a3f25"/>
+          <circle cx="650" cy="175" r="120" fill="none" stroke="#c8a96e" stroke-width="1"/>
+          <circle cx="650" cy="175" r="90" fill="none" stroke="#c8a96e" stroke-width="0.5" opacity="0.5"/>
+          <!-- Text -->
+          <text x="50" y="130" fill="white" font-family="Georgia,serif" font-size="48" font-weight="bold" font-style="italic">SUMMER</text>
+          <text x="50" y="175" fill="white" font-family="Georgia,serif" font-size="48" font-weight="bold" font-style="italic">SALE</text>
+          <text x="50" y="220" fill="rgba(255,255,255,0.7)" font-family="Arial,sans-serif" font-size="14" letter-spacing="5">UP TO 70% OFF ALL ITEMS</text>
+          <rect x="50" y="240" width="160" height="42" fill="white"/>
+          <text x="130" y="266" text-anchor="middle" fill="#b5593a" font-family="Arial,sans-serif" font-size="12" font-weight="bold" letter-spacing="2">SHOP NOW</text>
+          <!-- right side content -->
+          <text x="650" y="165" text-anchor="middle" fill="white" font-family="Georgia,serif" font-size="64" font-weight="bold">70</text>
+          <text x="650" y="195" text-anchor="middle" fill="#c8a96e" font-family="Arial,sans-serif" font-size="16" letter-spacing="3">PERCENT OFF</text>
+        </svg>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">Summer Sale Banner</p>
+        <p class="portfolio-overlay-type">Advertising Banner</p>
+      </div>
+      <div class="portfolio-meta">
+        <span class="portfolio-meta-name">Retail Promo Campaign</span>
+        <span class="portfolio-meta-tag">Ad Banner</span>
+      </div>
+    </div>
+
+    <!-- Logo 1 -->
+    <div class="portfolio-item reveal">
+      <div class="portfolio-img" style="background:#f5f0e8;">
+        <svg width="80%" height="80%" viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="100" r="65" fill="#0d0d0d"/>
+          <polygon points="150,52 188,122 112,122" fill="none" stroke="#c8a96e" stroke-width="2"/>
+          <circle cx="150" cy="100" r="52" fill="none" stroke="#c8a96e" stroke-width="1" opacity="0.4"/>
+          <text x="150" y="104" text-anchor="middle" fill="#c8a96e" font-family="Georgia,serif" font-size="10" letter-spacing="3">PEAK</text>
+          <text x="150" y="180" text-anchor="middle" fill="#0d0d0d" font-family="Georgia,serif" font-size="22" font-weight="bold" letter-spacing="2">SUMMIT</text>
+          <text x="150" y="200" text-anchor="middle" fill="#7a7265" font-family="Arial,sans-serif" font-size="9" letter-spacing="5">VENTURES</text>
+        </svg>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">Summit Ventures</p>
+        <p class="portfolio-overlay-type">Logo Design</p>
+      </div>
+      <div class="portfolio-meta">
+        <span class="portfolio-meta-name">Summit Ventures</span>
+        <span class="portfolio-meta-tag">Logo</span>
+      </div>
+    </div>
+
+    <!-- Logo 2 -->
+    <div class="portfolio-item reveal">
+      <div class="portfolio-img" style="background:#1a2a1a;">
+        <svg width="80%" height="80%" viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
+          <rect x="95" y="40" width="110" height="110" rx="55" fill="#4a6741"/>
+          <text x="150" y="107" text-anchor="middle" fill="white" font-family="Georgia,serif" font-size="38" font-weight="bold">V</text>
+          <path d="M 85 160 Q 150 140 215 160" fill="none" stroke="#6b9e60" stroke-width="1.5" opacity="0.6"/>
+          <text x="150" y="185" text-anchor="middle" fill="white" font-family="Georgia,serif" font-size="20" font-weight="bold" letter-spacing="3">VERDE</text>
+          <text x="150" y="205" text-anchor="middle" fill="#6b9e60" font-family="Arial,sans-serif" font-size="8" letter-spacing="6">ORGANIC CAFÉ</text>
+        </svg>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">Verde Organic</p>
+        <p class="portfolio-overlay-type">Logo Design</p>
+      </div>
+      <div class="portfolio-meta">
+        <span class="portfolio-meta-name">Verde Organic Café</span>
+        <span class="portfolio-meta-tag">Logo</span>
+      </div>
+    </div>
+
+    <!-- Branding Card -->
+    <div class="portfolio-item reveal">
+      <div class="portfolio-img" style="background:#f8f3ec;">
+        <svg width="85%" height="85%" viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
+          <!-- Business card mockup -->
+          <rect x="20" y="30" width="260" height="155" rx="4" fill="#0d0d0d" filter="drop-shadow(0 6px 16px rgba(0,0,0,0.25))"/>
+          <rect x="20" y="30" width="90" height="155" rx="4" fill="#b5593a"/>
+          <rect x="108" y="30" width="2" height="155" fill="#b5593a" opacity="0.3"/>
+          <!-- left pattern -->
+          <circle cx="65" cy="107" r="35" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          <circle cx="65" cy="107" r="22" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+          <text x="65" y="113" text-anchor="middle" fill="white" font-family="Georgia,serif" font-size="18" font-weight="bold">L</text>
+          <!-- right text -->
+          <text x="130" y="80" fill="white" font-family="Georgia,serif" font-size="14" font-weight="bold" letter-spacing="1">LUXE</text>
+          <text x="130" y="98" fill="#c8a96e" font-family="Arial,sans-serif" font-size="7" letter-spacing="3">INTERIORS</text>
+          <rect x="130" y="108" width="40" height="0.8" fill="#c8a96e" opacity="0.6"/>
+          <text x="130" y="126" fill="rgba(255,255,255,0.7)" font-family="Arial,sans-serif" font-size="7">info@luxe.com</text>
+          <text x="130" y="140" fill="rgba(255,255,255,0.7)" font-family="Arial,sans-serif" font-size="7">+1 (555) 000-1234</text>
+          <text x="130" y="154" fill="rgba(255,255,255,0.7)" font-family="Arial,sans-serif" font-size="7">luxeinteriors.co</text>
+        </svg>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">Luxe Interiors</p>
+        <p class="portfolio-overlay-type">Brand Identity</p>
+      </div>
+      <div class="portfolio-meta">
+        <span class="portfolio-meta-name">Luxe Interiors</span>
+        <span class="portfolio-meta-tag">Branding</span>
+      </div>
+    </div>
+
+    <!-- Social Media Post -->
+    <div class="portfolio-item reveal">
+      <div class="portfolio-img" style="background:#e8dfd2;">
+        <svg width="70%" height="70%" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="300" fill="#1d3557"/>
+          <!-- background circles -->
+          <circle cx="260" cy="40" r="80" fill="#457b9d" opacity="0.3"/>
+          <circle cx="40" cy="260" r="60" fill="#a8dadc" opacity="0.2"/>
+          <!-- content -->
+          <text x="30" y="80" fill="#a8dadc" font-family="Arial,sans-serif" font-size="9" letter-spacing="3">MONDAY MOTIVATION</text>
+          <text x="30" y="130" fill="white" font-family="Georgia,serif" font-size="28" font-weight="bold" font-style="italic">"Dream</text>
+          <text x="30" y="165" fill="white" font-family="Georgia,serif" font-size="28" font-weight="bold" font-style="italic">bigger."</text>
+          <rect x="30" y="182" width="50" height="2" fill="#a8dadc"/>
+          <text x="30" y="212" fill="rgba(255,255,255,0.65)" font-family="Arial,sans-serif" font-size="9" letter-spacing="1">@yourhandle</text>
+          <rect x="30" y="250" width="100" height="28" rx="14" fill="#a8dadc"/>
+          <text x="80" y="269" text-anchor="middle" fill="#1d3557" font-family="Arial,sans-serif" font-size="9" font-weight="bold" letter-spacing="1">FOLLOW US</text>
+        </svg>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">Social Post</p>
+        <p class="portfolio-overlay-type">Canva Design</p>
+      </div>
+      <div class="portfolio-meta">
+        <span class="portfolio-meta-name">Social Media Graphic</span>
+        <span class="portfolio-meta-tag">Canva</span>
+      </div>
+    </div>
+
+    <!-- Logo 3 -->
+    <div class="portfolio-item reveal">
+      <div class="portfolio-img" style="background:#fef9f0;">
+        <svg width="80%" height="80%" viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
+          <!-- Hexagon logo -->
+          <polygon points="150,42 196,67 196,117 150,142 104,117 104,67" fill="#c8a96e"/>
+          <polygon points="150,58 181,75 181,109 150,126 119,109 119,75" fill="none" stroke="white" stroke-width="1.5"/>
+          <text x="150" y="100" text-anchor="middle" fill="white" font-family="Georgia,serif" font-size="24" font-weight="bold">H</text>
+          <text x="150" y="175" text-anchor="middle" fill="#0d0d0d" font-family="Georgia,serif" font-size="20" font-weight="bold" letter-spacing="2">HIVE</text>
+          <text x="150" y="196" text-anchor="middle" fill="#7a7265" font-family="Arial,sans-serif" font-size="8" letter-spacing="5">CONSULTING</text>
+        </svg>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">Hive Consulting</p>
+        <p class="portfolio-overlay-type">Logo Design</p>
+      </div>
+      <div class="portfolio-meta">
+        <span class="portfolio-meta-name">Hive Consulting</span>
+        <span class="portfolio-meta-tag">Logo</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">What We Offer</p>
+    <h2 class="section-title">Full-Range <em>Support</em></h2>
+  </div>
+  <p class="services-intro reveal">
+    Need reliable support for your business? We're here to help. We are a family of professionals dedicated to helping small businesses and individuals with quality virtual support they can trust.
+  </p>
+
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+      <p class="service-name">Data Entry</p>
+      <p class="service-desc">Accurate, efficient data input and management so your records stay clean and up to date.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+      </svg>
+      <p class="service-name">Administrative Assistance</p>
+      <p class="service-desc">Scheduling, correspondence, file management, and daily task support handled professionally.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+      <p class="service-name">Lead Generation</p>
+      <p class="service-desc">Targeted prospect research and contact gathering to keep your sales pipeline full.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+      </svg>
+      <p class="service-name">Canva Editing</p>
+      <p class="service-desc">Eye-catching graphics, social posts, banners, and presentations designed in Canva.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/>
+      </svg>
+      <p class="service-name">Data Labeling</p>
+      <p class="service-desc">Precise annotation and labeling services for AI datasets and machine learning projects.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+      </svg>
+      <p class="service-name">Email Support</p>
+      <p class="service-desc">Timely, professional inbox management and customer email handling on your behalf.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+      </svg>
+      <p class="service-name">Vortex Translation</p>
+      <p class="service-desc">Accurate, context-aware translation services to connect your business across languages.</p>
+    </div>
+    <div class="service-card" style="background: rgba(200,169,110,0.08); border-left: 2px solid var(--gold);">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+      </svg>
+      <p class="service-name">Why Choose Us?</p>
+      <p class="service-desc" style="color:rgba(255,255,255,0.7);">Clear communication, fast turnaround, and dependable service — every single time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual reveal">
+    <div class="about-visual-main">
+      <svg width="70%" viewBox="0 0 280 340" xmlns="http://www.w3.org/2000/svg">
+        <!-- Abstract brand mark -->
+        <circle cx="140" cy="140" r="100" fill="none" stroke="#c8a96e" stroke-width="1"/>
+        <circle cx="140" cy="140" r="70" fill="none" stroke="#c8a96e" stroke-width="0.5" opacity="0.5"/>
+        <circle cx="140" cy="140" r="40" fill="rgba(200,169,110,0.15)"/>
+        <text x="140" y="150" text-anchor="middle" fill="#c8a96e" font-family="Georgia,serif" font-size="36" font-weight="bold" font-style="italic">M</text>
+        <!-- dots on circle -->
+        <circle cx="140" cy="40" r="4" fill="#c8a96e"/>
+        <circle cx="228" cy="105" r="3" fill="#c8a96e" opacity="0.6"/>
+        <circle cx="228" cy="175" r="3" fill="#c8a96e" opacity="0.6"/>
+        <circle cx="140" cy="240" r="4" fill="#c8a96e"/>
+        <circle cx="52" cy="175" r="3" fill="#c8a96e" opacity="0.6"/>
+        <circle cx="52" cy="105" r="3" fill="#c8a96e" opacity="0.6"/>
+        <!-- bottom text -->
+        <text x="140" y="300" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-family="Arial,sans-serif" font-size="9" letter-spacing="8">MALBC FREELANCE</text>
+      </svg>
+      <div class="about-tag">Est. Family Studio</div>
+    </div>
+    <div class="about-visual-accent"></div>
+  </div>
+
+  <div class="about-content">
+    <p class="section-eyebrow">Our Story</p>
+    <h2 class="section-title" style="margin-bottom:1.5rem;">Built on Trust, <em>Driven by Care</em></h2>
+    <p class="about-text">
+      We are a family of professionals who genuinely care about your success. From polished brand identities to seamless back-office support, every task we take on reflects our commitment to quality.
+    </p>
+    <p class="about-body">
+      We value clear communication, fast turnaround, and dependable service. Whether you need help with daily tasks or long-term business support, our team is ready to make your work easier — so you can focus on what you do best.
+    </p>
+
+    <div class="stat-row">
+      <div class="stat">
+        <span class="stat-num">7+</span>
+        <span class="stat-label">Services Offered</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Dedicated</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">★5</span>
+        <span class="stat-label">Quality Focus</span>
+      </div>
+    </div>
+
+    <a class="btn-primary" href="https://www.upwork.com/agencies/2055494759577331380/" target="_blank">
+      View Upwork Profile ↗
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Let's Work Together</p>
+    <h2 class="section-title">Start a <em>Conversation</em></h2>
+  </div>
+
+  <div class="contact-inner">
+    <div class="contact-text reveal">
+      <p class="contact-lead">
+        Ready to give your brand the attention it deserves? Reach out — we'd love to hear about your project.
+      </p>
+
+      <div class="contact-item">
+        <span class="contact-label">Email Us</span>
+        <span class="contact-value">
+          <a href="mailto:malbcfreelance@gmail.com">malbcfreelance@gmail.com</a>
+        </span>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-label">Hire on Upwork</span>
+        <span class="contact-value">
+          <a href="https://www.upwork.com/agencies/2055494759577331380/" target="_blank">MALBC Freelance Agency ↗</a>
+        </span>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-label">Availability</span>
+        <span class="contact-value">Open for new projects</span>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-label">Response Time</span>
+        <span class="contact-value">Within 24 hours</span>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input class="form-input" type="text" placeholder="Jane Smith" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" placeholder="jane@example.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Service Needed</label>
+        <input class="form-input" type="text" placeholder="e.g. Logo Design, Data Entry..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Message</label>
+        <textarea class="form-textarea" placeholder="Tell us about your project..."></textarea>
+      </div>
+      <a class="btn-primary" href="mailto:malbcfreelance@gmail.com" style="text-align:center; justify-content:center;">
+        Send Message ↗
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span>MALBC</span> FREELANCE</div>
+  <ul class="footer-links">
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="https://www.upwork.com/agencies/2055494759577331380/" target="_blank">Upwork</a></li>
+    <li><a href="mailto:malbcfreelance@gmail.com">Email</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 MALBC Freelance · All Rights Reserved</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Contact form submit → mailto
+  const btn = document.querySelector('.contact-form .btn-primary');
+  if (btn) {
+    btn.addEventListener('click', (e) => {
+      const name = document.querySelector('.contact-form input[type="text"]').value;
+      const msg = document.querySelector('.contact-form textarea').value;
+      if (name || msg) {
+        e.preventDefault();
+        const subject = encodeURIComponent('Project Inquiry from ' + (name || 'Website'));
+        const body = encodeURIComponent(msg || '');
+        window.location.href = `mailto:malbcfreelance@gmail.com?subject=${subject}&body=${body}`;
+      }
+    });
+  }
+</script>
+</body>
+</html>
